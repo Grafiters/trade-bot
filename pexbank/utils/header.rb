@@ -1,4 +1,4 @@
-require_relative 'logger.rb'
+require_relative File.join(File.dirname(__FILE__), '../','../','logger.rb')
 require 'openssl'
 require 'json'
 

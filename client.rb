@@ -1,5 +1,4 @@
 require_relative 'logger.rb'
-
 require 'dotenv/load'
 require 'faraday'
 
