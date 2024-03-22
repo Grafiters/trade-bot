@@ -1,9 +1,11 @@
 require_relative 'logger.rb'
+
+require 'dotenv/load'
 require 'faraday'
 
 class Client
     def initialize(params)
-        @host = 'https://beta.pexbank.io'
+        @host = ENV['HOST']
         @header = params[:header]
         @logger = CustomLogger.new(STDOUT)
         connection

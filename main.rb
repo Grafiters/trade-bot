@@ -1,3 +1,5 @@
+require 'dotenv/load'
+
 require_relative 'logger.rb'
 require_relative 'header.rb'
 require_relative 'client.rb'
@@ -6,8 +8,8 @@ require_relative 'client.rb'
 
 def generateHeader
     key = {
-        apikey: '000c6242935ff9ce',
-        secret: '6ca422145ac7e67860fab71906e4ee19'
+        apikey: ENV['APIKEY'],
+        secret: ENV['SECRET']
     }
 
     Header.new(key).generate_signature
