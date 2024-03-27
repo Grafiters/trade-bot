@@ -1,6 +1,7 @@
 require_relative 'logger.rb'
 require 'dotenv/load'
 require 'faraday'
+require 'json'
 
 class Client
     def initialize(params)
@@ -14,17 +15,24 @@ class Client
         response = @connection.get \
             path
         
-        return JSON.parse(response.body, symbolize_names: true)
+        if response.status == 200
+            return JSON.parse(response.body, symbolize_names: true)
+        else
+            return { errors: response.body }
+        end
     rescue => e
         @logger.error(e)    
     end
 
     def post(path, body = {})
-        response = @connection.post(path) do |req|
-            req.body = body.to_json
-        end
+        response = @connection.post \
+            path, body.to_json
 
-        return JSON.parse(response.body, symbolize_names: true)
+        if response.status == 201
+            return JSON.parse(response.body, symbolize_names: true)
+        else
+            return { errors: response.body }
+        end
     rescue => e
         @logger.error(e)
     end
@@ -33,7 +41,7 @@ class Client
 
     def connection
         @connection = Faraday.new(url: @host) do |faraday|
-            faraday.headers['accept'] = 'application/json'
+            faraday.headers['accept'] = '*'
             faraday.headers['Content-Type'] = 'application/json'
             faraday.headers['X-Auth-Apikey'] = @header[:apikey]
             faraday.headers['X-Auth-Nonce'] = @header[:nonce]

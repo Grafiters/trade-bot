@@ -22,9 +22,9 @@ module Utils
         def request(path, method, params = {})
             case method
             when 'get'
-                Client.new({header: generateHeader}).get(path)
+                return Client.new({header: generateHeader}).get(path)
             when 'post'
-                Client.new({header: generateHeader}).post(path)
+                return Client.new({header: generateHeader}).post(path, params)
             else
                 @logger.error "No case with this method"
             end

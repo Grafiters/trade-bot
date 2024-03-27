@@ -18,7 +18,7 @@ def main
     @logger.info "Start Runner"
     begin
         Utils.const_get(ARGV[0].capitalize.to_sym).new.main()
-        sleep(2)
+        sleep(0)
     rescue => e
         @running = false
         @logger.error "Error : #{e.inspect}"
